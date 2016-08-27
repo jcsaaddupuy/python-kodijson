@@ -2,7 +2,7 @@ include version.py
 include LICENSE
 include README.md
 
-graft xbmcjson
+graft kodijson
 graft tests
 
 
