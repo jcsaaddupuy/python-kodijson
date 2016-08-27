@@ -1,17 +1,17 @@
 from setuptools import setup
 import version
 
-PACKAGE = 'xbmc-json'
+PACKAGE = 'kodi-json'
 
 setup(name=PACKAGE,
       version=version.VERSION,
       license="WTFPL",
-      description="Python module for controlling xbmc over HTTP Json API",
+      description="Python module for controlling kodi over HTTP Json API",
       author="Jean-Christophe Saad-Dupuy",
-      author_email="saad.dupuy@gmail.com",
-      url="https://github.com/jcsaaddupuy/python-xbmc",
-      py_modules=["xbmcjson/xbmcjson"],
-      packages=["xbmcjson"],
+      author_email="jc.saaddupuy@fsfe.org",
+      url="https://github.com/jcsaaddupuy/python-kodijson",
+      py_modules=["kodijson/kodijson"],
+      packages=["kodijson"],
       install_requires=["requests"],
       setup_requires=['pytest-runner'],
       tests_require=['pytest', 'pytest-cov', 'responses'],
