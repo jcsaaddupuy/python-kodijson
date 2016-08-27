@@ -31,12 +31,20 @@ class KodiJsonTransport(KodiTransport):
     """HTTP Json transport."""
 
     def __init__(self, url, username='xbmc', password='xbmc'):
+        """Kodi Json Transport constructor.
+
+        Args:
+            url (str): url of the kodi json http endpoint
+            username (str): kodi username
+            password (str): kodi password
+        """
         self.url = url
         self.username = username
         self.password = password
         self._id = 0
 
     def execute(self, method, *args, **kwargs):
+        """Execute given method with given arguments."""
         headers = {
             'Content-Type': 'application/json',
             'User-Agent': 'python-kodi'
@@ -69,6 +77,13 @@ class Kodi(object):
     """Kodi client."""
 
     def __init__(self, url, username='xbmc', password='xbmc'):
+        """Kodi object constructor.
+
+        Args:
+            url (str): url of the kodi json http endpoint
+            username (str): kodi username
+            password (str): kodi password
+        """
         self.transport = KodiJsonTransport(url, username, password)
         # Dynamic namespace class instanciation
         # we obtain class by looking up in globals
@@ -85,9 +100,15 @@ class KodiNamespace(object):
     """Base class for Kodi namespace."""
 
     def __init__(self, kodi):
+        """Kodi namespace.
+
+        Args:
+            kodi (Kodi): kodi instance
+        """
         self.kodi = kodi
 
     def __getattr__(self, name):
+        """Overide default getattr to translate dynamically objects attributes to the right namespace."""
         klass = self.__class__.__name__
         method = name
         kodimethod = "%s.%s" % (klass, method)
