@@ -39,7 +39,7 @@ class KodiJsonTransport(KodiTransport):
     def execute(self, method, *args, **kwargs):
         headers = {
             'Content-Type': 'application/json',
-            'User-Agent': 'python-xbmc'
+            'User-Agent': 'python-kodi'
         }
         # Params are given as a dictionnary
         if len(args) == 1:
@@ -84,17 +84,17 @@ class Kodi(object):
 class KodiNamespace(object):
     """Base class for Kodi namespace."""
 
-    def __init__(self, xbmc):
-        self.xbmc = xbmc
+    def __init__(self, kodi):
+        self.kodi = kodi
 
     def __getattr__(self, name):
         klass = self.__class__.__name__
         method = name
-        xbmcmethod = "%s.%s" % (klass, method)
+        kodimethod = "%s.%s" % (klass, method)
 
         def hook(*args, **kwargs):
             """Hook for dynamic method definition."""
-            return self.xbmc.execute(xbmcmethod, *args, **kwargs)
+            return self.kodi.execute(kodimethod, *args, **kwargs)
 
         return hook
 
