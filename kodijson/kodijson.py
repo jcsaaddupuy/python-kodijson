@@ -1,34 +1,34 @@
-""" XBMC/Kodi jsonclient library module"""
+"""XBMC/Kodi jsonclient library module."""
 import json
 import requests
 
 # this list will be extended with types dynamically defined
 __all__ = ["PLAYER_VIDEO",
-           "XBMCTransport",
-           "XBMCJsonTransport",
-           "XBMC",
-           "XBMCNamespace", ]
+           "KodiTransport",
+           "KodiJsonTransport",
+           "Kodi",
+           "KodiNamespace", ]
 
-# XBMC constant
+# Kodi constant
 PLAYER_VIDEO = 1
 
 # Dynamic namespace class injection
-__XBMC_NAMESPACES__ = (
+__KODI_NAMESPACES__ = (
     "Addons", "Application", "AudioLibrary", "Favourites", "Files", "GUI",
     "Input", "JSONRPC", "Playlist", "Player", "PVR", "Settings", "System",
     "VideoLibrary", "xbmc")
 
 
-class XBMCTransport(object):
-    """Base class for XBMC transport"""
+class KodiTransport(object):
+    """Base class for Kodi transport."""
 
     def execute(self, method, args):
-        """Execute method with given args"""
+        """Execute method with given args."""
         pass  # pragma: no cover
 
 
-class XBMCJsonTransport(XBMCTransport):
-    """HTTP Json transport"""
+class KodiJsonTransport(KodiTransport):
+    """HTTP Json transport."""
 
     def __init__(self, url, username='xbmc', password='xbmc'):
         self.url = url
@@ -39,7 +39,7 @@ class XBMCJsonTransport(XBMCTransport):
     def execute(self, method, *args, **kwargs):
         headers = {
             'Content-Type': 'application/json',
-            'User-Agent': 'python-xbmc'
+            'User-Agent': 'python-kodi'
         }
         # Params are given as a dictionnary
         if len(args) == 1:
@@ -65,47 +65,47 @@ class XBMCJsonTransport(XBMCTransport):
         return resp.json()
 
 
-class XBMC(object):
-    """XBMC client"""
+class Kodi(object):
+    """Kodi client."""
 
     def __init__(self, url, username='xbmc', password='xbmc'):
-        self.transport = XBMCJsonTransport(url, username, password)
+        self.transport = KodiJsonTransport(url, username, password)
         # Dynamic namespace class instanciation
         # we obtain class by looking up in globals
         _globals = globals()
-        for cl in __XBMC_NAMESPACES__:
+        for cl in __KODI_NAMESPACES__:
             setattr(self, cl, _globals[cl](self.transport))
 
     def execute(self, *args, **kwargs):
-        """Execute method with given args and kwargs"""
+        """Execute method with given args and kwargs."""
         self.transport.execute(*args, **kwargs)
 
 
-class XBMCNamespace(object):
-    """Base class for XBMC namespace."""
+class KodiNamespace(object):
+    """Base class for Kodi namespace."""
 
-    def __init__(self, xbmc):
-        self.xbmc = xbmc
+    def __init__(self, kodi):
+        self.kodi = kodi
 
     def __getattr__(self, name):
         klass = self.__class__.__name__
         method = name
-        xbmcmethod = "%s.%s" % (klass, method)
+        kodimethod = "%s.%s" % (klass, method)
 
         def hook(*args, **kwargs):
-            """ Hook for dynamic method definition"""
-            return self.xbmc.execute(xbmcmethod, *args, **kwargs)
+            """Hook for dynamic method definition."""
+            return self.kodi.execute(kodimethod, *args, **kwargs)
 
         return hook
 
 # inject new type in module locals
 _LOCALS_ = locals()
-for _classname in __XBMC_NAMESPACES__:
-    # define a new type extending XBMCNamespace
+for _classname in __KODI_NAMESPACES__:
+    # define a new type extending KodiNamespace
     # equivalent to
     #
-    # class Y(XBMCNamespace):
+    # class Y(KodiNamespace):
     #    pass
-    _LOCALS_[_classname] = type(_classname, (XBMCNamespace, ), {})
+    _LOCALS_[_classname] = type(_classname, (KodiNamespace, ), {})
     # inject class in __all__ for import * to work
     __all__.append(_classname)

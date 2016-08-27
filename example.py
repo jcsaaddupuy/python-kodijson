@@ -1,27 +1,27 @@
 #!/bin/env/python
 
-from xbmcjson import XBMC, PLAYER_VIDEO
+from kodijson import Kodi, PLAYER_VIDEO
 
 if __name__ == "__main__":
-    xbmc = XBMC("http://YOURHOST/jsonrpc")
+    kodi = Kodi("http://YOURHOST/jsonrpc")
     # JSON RPC
     # Ping
-    print(xbmc.JSONRPC.Ping())
+    print(kodi.JSONRPC.Ping())
 
     # Gui
-    xbmc.GUI.ActivateWindow({"window": "home"})
-    xbmc.GUI.ActivateWindow({"window": "weather"})
+    kodi.GUI.ActivateWindow({"window": "home"})
+    kodi.GUI.ActivateWindow({"window": "weather"})
     # Show a notification
-    xbmc.GUI.ShowNotification({"title": "Title", "message": "Hello notif"})
+    kodi.GUI.ShowNotification({"title": "Title", "message": "Hello notif"})
     # Application
-    xbmc.Application.SetMute({"mute": True})
-    xbmc.Application.SetMute({"mute": False})
+    kodi.Application.SetMute({"mute": True})
+    kodi.Application.SetMute({"mute": False})
     # Video library
-    xbmc.VideoLibrary.Scan()
-    xbmc.VideoLibrary.Clean()
+    kodi.VideoLibrary.Scan()
+    kodi.VideoLibrary.Clean()
     # Query the video library
 
-    print(xbmc.VideoLibrary.GetTVShows({
+    print(kodi.VideoLibrary.GetTVShows({
         "filter": {"field": "playcount", "operator": "is", "value": "0"},
         "limits": {"start": 0, "end": 75},
         "properties": ["art", "genre", "plot", "title", "originaltitle",
@@ -30,5 +30,5 @@ if __name__ == "__main__":
         "sort": {"order": "ascending", "method": "label"}
     }, id="libTvShows"))
     # Player
-    xbmc.Player.PlayPause([PLAYER_VIDEO])
-    xbmc.Player.Stop([PLAYER_VIDEO])
+    kodi.Player.PlayPause([PLAYER_VIDEO])
+    kodi.Player.Stop([PLAYER_VIDEO])

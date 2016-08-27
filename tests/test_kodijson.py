@@ -1,50 +1,50 @@
-"""Test for xbmcjson module"""
+"""Test for kodijson module"""
 import json
 import responses
 
 # not used, ensure import is working
-from xbmcjson import PLAYER_VIDEO  # NOQA
+from kodijson import PLAYER_VIDEO  # NOQA
 
-from xbmcjson import XBMC
-from xbmcjson import Addons
+from kodijson import Kodi
+from kodijson import Addons
 
-from xbmcjson import Application
-from xbmcjson import AudioLibrary
+from kodijson import Application
+from kodijson import AudioLibrary
 
-from xbmcjson import Favourites
-from xbmcjson import Files
-from xbmcjson import GUI
-from xbmcjson import Input
-from xbmcjson import JSONRPC
+from kodijson import Favourites
+from kodijson import Files
+from kodijson import GUI
+from kodijson import Input
+from kodijson import JSONRPC
 
-from xbmcjson import Playlist
-from xbmcjson import Player
-from xbmcjson import PVR
+from kodijson import Playlist
+from kodijson import Player
+from kodijson import PVR
 
-from xbmcjson import Settings
-from xbmcjson import System
-from xbmcjson import VideoLibrary
-from xbmcjson import xbmc
+from kodijson import Settings
+from kodijson import System
+from kodijson import VideoLibrary
+from kodijson import xbmc
 
-from xbmcjson import XBMCJsonTransport
+from kodijson import KodiJsonTransport
 
 
-class TestXBMCJsonTransport(object):
+class TestKodiJsonTransport(object):
     """ Tests for default transport """
 
     def test_default(self):
-        """Tests XBMCJsonTransport default values"""
+        """Tests KodiJsonTransport default values"""
         url = "http://localhost/"
-        transport = XBMCJsonTransport(url=url)
+        transport = KodiJsonTransport(url=url)
         assert transport.url == url
         assert transport.username == "xbmc"
         assert transport.password == "xbmc"
 
     def test_parameters(self):
-        """Tests XBMCJsonTransport default values"""
+        """Tests KodiJsonTransport default values"""
 
         url = "http://localhost/"
-        transport = XBMCJsonTransport(url=url, username="kodi", password="pwd")
+        transport = KodiJsonTransport(url=url, username="kodi", password="pwd")
         assert transport.url == url
         assert transport.username == "kodi"
         assert transport.password == "pwd"
@@ -55,7 +55,7 @@ class TestXBMCJsonTransport(object):
         # the response does not matters
         responses.add("POST", "http://localhost", "{}")
         url = "http://localhost/"
-        transport = XBMCJsonTransport(url=url, username="kodi", password="pwd")
+        transport = KodiJsonTransport(url=url, username="kodi", password="pwd")
         # test
         transport.execute("remote_method")
 
@@ -78,7 +78,7 @@ class TestXBMCJsonTransport(object):
         responses.add("POST", "http://localhost", "{}")
 
         url = "http://localhost/"
-        transport = XBMCJsonTransport(url=url, username="kodi", password="pwd")
+        transport = KodiJsonTransport(url=url, username="kodi", password="pwd")
         # test
         transport.execute("remote_method", x="y", z="a")
 
@@ -101,7 +101,7 @@ class TestXBMCJsonTransport(object):
         # the response does not matters
         responses.add("POST", "http://localhost", "{}")
         url = "http://localhost/"
-        transport = XBMCJsonTransport(url=url, username="kodi", password="pwd")
+        transport = KodiJsonTransport(url=url, username="kodi", password="pwd")
         # test
         transport.execute("remote_method", {"x": "y"})
 
@@ -117,13 +117,13 @@ class TestXBMCJsonTransport(object):
             responses.calls[0].request.body.decode("utf-8"))
 
 
-class TestXBMC(object):
-    """ Tests for default XBMC class """
+class TestKodi(object):
+    """ Tests for default Kodi class """
     def test_default(self):
-        """Tests XBMCJsonTransport default values"""
+        """Tests KodiJsonTransport default values"""
 
         url = "http://localhost/"
-        x = XBMC(url=url)
+        x = Kodi(url=url)
         assert isinstance(x.Addons, Addons)
 
         assert isinstance(x.Application, Application)
@@ -151,7 +151,7 @@ class TestXBMC(object):
         responses.add("POST", "http://localhost", "{}")
         url = "http://localhost/"
 
-        x = XBMC(url=url)
+        x = Kodi(url=url)
         x.JSONRPC.Ping()
 
         expectd_body = {
@@ -172,7 +172,7 @@ class TestXBMC(object):
         responses.add("POST", "http://localhost", "{}")
         url = "http://localhost/"
 
-        x = XBMC(url=url)
+        x = Kodi(url=url)
         x.execute("JSONRPC.Ping", x=1)
 
         expectd_body = {
