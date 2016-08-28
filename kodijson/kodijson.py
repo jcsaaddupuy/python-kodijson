@@ -108,7 +108,10 @@ class KodiNamespace(object):
         self.kodi = kodi
 
     def __getattr__(self, name):
-        """Overide default getattr to translate dynamically objects attributes to the right namespace."""
+        """Overide default __getattr__.
+
+        This translate objects attributes to the right namespace.
+        """
         klass = self.__class__.__name__
         method = name
         kodimethod = "%s.%s" % (klass, method)
