@@ -18,12 +18,12 @@ Client instanciation
 
 .. code:: python
 
-    from kodijson import XBMC, PLAYER_VIDEO
+    from kodijson import Kodi, PLAYER_VIDEO
     #Login with default kodi/kodi credentials
-    kodi = XBMC("http://YOURHOST/jsonrpc")
+    kodi = Kodi("http://YOURHOST/jsonrpc")
 
     #Login with custom credentials
-    kodi = XBMC("http://YOURHOST/jsonrpc", "login", "password")
+    kodi = Kodi("http://YOURHOST/jsonrpc", "login", "password")
 
 Ping kodi
 
