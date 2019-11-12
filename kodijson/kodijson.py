@@ -1,6 +1,6 @@
 """XBMC/Kodi jsonclient library module."""
 import json
-import requests
+from websocket import create_connection
 
 # this list will be extended with types dynamically defined
 __all__ = ["PLAYER_VIDEO",
@@ -30,17 +30,11 @@ class KodiTransport(object):
 class KodiJsonTransport(KodiTransport):
     """HTTP Json transport."""
 
-    def __init__(self, url, username='xbmc', password='xbmc'):
+    def __init__(self, url):
         self.url = url
-        self.username = username
-        self.password = password
         self._id = 0
 
     def execute(self, method, *args, **kwargs):
-        headers = {
-            'Content-Type': 'application/json',
-            'User-Agent': 'python-kodi'
-        }
         # Params are given as a dictionnary
         if len(args) == 1:
             args = args[0]
@@ -56,20 +50,18 @@ class KodiJsonTransport(KodiTransport):
         params['params'] = args
 
         values = json.dumps(params)
-
-        resp = requests.post(self.url,
-                             values.encode('utf-8'),
-                             headers=headers,
-                             auth=(self.username, self.password))
-        resp.raise_for_status()
-        return resp.json()
+        ws = create_connection(self.url)
+        ws.send(values)
+        result =  ws.recv()
+        ws.close()
+        return json.loads(result)
 
 
 class Kodi(object):
     """Kodi client."""
 
-    def __init__(self, url, username='xbmc', password='xbmc'):
-        self.transport = KodiJsonTransport(url, username, password)
+    def __init__(self, url):
+        self.transport = KodiJsonTransport(url)
         # Dynamic namespace class instanciation
         # we obtain class by looking up in globals
         _globals = globals()
