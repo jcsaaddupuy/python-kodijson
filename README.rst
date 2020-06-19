@@ -3,8 +3,8 @@
 python kodi json client
 =======================
 
-Simple python module that allow kodi control over HTTP Json API.
-Virtually support all availables commands.
+Simple Python module that allows Kodi control over the HTTP Json API.
+It supports virtually all available commands.
 
 Install it :
 
@@ -12,20 +12,20 @@ Install it :
 
     pip install kodi-json
 
-Usages examples :
+Usage example :
 
-Client instanciation
+Client instantation
 
 .. code:: python
 
     from kodijson import Kodi, PLAYER_VIDEO
-    #Login with default kodi/kodi credentials
+    # Login with default kodi/kodi credentials
     kodi = Kodi("http://YOURHOST/jsonrpc")
 
-    #Login with custom credentials
+    # Login with custom credentials
     kodi = Kodi("http://YOURHOST/jsonrpc", "login", "password")
 
-Ping kodi
+Ping Kodi :
 
 .. code:: python
 
@@ -44,7 +44,7 @@ UI interaction :
 
     # ...and so on
 
-Parameters can alos be passed as python parameters:
+Parameters can also be passed as Python parameters:
 
 .. code:: python
 
@@ -60,7 +60,7 @@ Library interaction :
     kodi.VideoLibrary.Clean()
     # ...and so on
 
-Everything to build a script thats act as a full remote
+Everything to build a script that acts as a full remote
 
 .. code:: python
 
@@ -76,13 +76,12 @@ Everything to build a script thats act as a full remote
     kodi.Input.Info()
     # ...and so on
 
-See http://wiki.xbmc.org/index.php?title=JSON-RPC_API/v6 for availables
-commands.
+See `the official documentation <https://kodi.wiki/view/JSON-RPC_API/v10>`_ for available commands.
 
-Every kodi namespaces are accessible from the instanciated kodi client.
+Every Kodi namespace is accessible from the instantated Kodi client.
 
-Every commands presents in the `API
-documentation <http://wiki.xbmc.org/index.php?title=JSON-RPC_API/v6>`__
+Every command presents in the `API
+documentation <https://kodi.wiki/view/JSON-RPC_API/v10>`__
 should be available.
 
 You can take a look at
